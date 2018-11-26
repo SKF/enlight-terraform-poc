@@ -2,11 +2,11 @@
 
 ## structure
 - modules
- - public_zone
- - website
+  - public_zone
+  - website
 - services
- - common_infra
- - web_app
+  - common_infra
+  - web_app
 
 ## init
 - common_infra > terraform init

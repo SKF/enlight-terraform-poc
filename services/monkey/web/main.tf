@@ -7,7 +7,7 @@ data "terraform_remote_state" "common_infra" {
   backend = "local"
 
   config {
-    path = "../common_infra/terraform.tfstate"
+    path = "../../common/iac/terraform.tfstate"
   }
 }
 

@@ -1,7 +1,7 @@
 # enlight-terraform-poc
 The purpose with this PoC is to build an example which takes into account our current Way of Working with multiple repos which has infrastructure dependencies among themselves and would be deployed in multiple AWS accounts.
 
-## structure
+## File structure
 - modules
   - public_zone
   - website

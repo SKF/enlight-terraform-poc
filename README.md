@@ -22,7 +22,6 @@ https://www.terraform.io/
 - modules
   - public_zone
   - website
-  - certificate (milestone #3)
 - services
   - common
     - iac

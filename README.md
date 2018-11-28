@@ -1,5 +1,14 @@
 # enlight-terraform-poc
-The purpose with this PoC is to build an example which takes into account our current Way of Working with multiple repos which has infrastructure dependencies among themselves and would be deployed in multiple AWS accounts.
+The purpose with this PoC is to build an example with Terraform which takes into account our current Way of Working with multiple repos which has infrastructure dependencies among themselves and would be deployed in multiple AWS accounts.
+
+## Terraform
+https://www.terraform.io/
+
+## Why Terraform
+- Build vs. Buy, Terraform will replace Fluffy, a homebuilt solution ontop of AWS Cloudformation.
+- Multi cloud, even though we are currently not moving towards multi cloud, Terraform is built for it.
+- Provision other things than AWS resources, Terraform wouldn't just support Infrastructure resources in AWS or Azure, it also supports custom resources, like adding a developer to Enlight, AWS and Azure Devops, which would help with onboarding/offboarding.
+- Up to date, Fluffy is built ontop of Troposphere which is a community driven tool for writing cloudformation templates in Python, while Terraform has HashiCorp, a larger community and major cloud providers like AWS and Azure as contributers.
 
 ## When done, we will be able to
 - create a new public hosted zone and add its Name Servers to `sandbox.enlight.skf.com`
@@ -17,7 +26,7 @@ The purpose with this PoC is to build an example which takes into account our cu
 - services
   - common
     - iac
-  - service_one
+  - monkey
     - web
     - iac (milestone #3)
     - backend (milestone #3)

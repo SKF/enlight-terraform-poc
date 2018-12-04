@@ -11,7 +11,10 @@ resource "aws_s3_bucket" "website" {
       "Effect":"Allow",
       "Principal": "*",
       "Action":["s3:GetObject"],
-      "Resource":["arn:aws:s3:::${var.root_domain_name}/*"]
+      "Resource":[
+        "arn:aws:s3:::${var.root_domain_name}",
+        "arn:aws:s3:::${var.root_domain_name}/*"
+        ]
     }
   ]
 }

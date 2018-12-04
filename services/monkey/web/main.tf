@@ -11,10 +11,14 @@ data "terraform_remote_state" "common_infra" {
   }
 }
 
-resource "aws_s3_bucket_object" "index_html" {
-  bucket       = "${data.terraform_remote_state.common_infra.website_bucket_id}"
-  key          = "index.html"
-  source       = "./index.html"
-  etag         = "${md5(file("./index.html"))}"
-  content_type = "text/html"
+resource "null_resource" "yarn_build" {
+  provisioner "local-exec" {
+    command = <<EOF
+    cd app && 
+    yarn install &&
+    yarn build && 
+    aws s3 sync --profile sandbox build/ s3://${data.terraform_remote_state.common_infra.website_bucket_id} &&
+    aws cloudfront create-invalidation --profile sandbox --distribution-id ${data.terraform_remote_state.common_infra.website_cloudfront_id} --paths /*
+    EOF
+  }
 }

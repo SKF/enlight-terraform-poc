@@ -27,8 +27,8 @@ https://www.terraform.io/
     - iac
   - monkey
     - web
-    - iac (milestone #3)
-    - backend (milestone #3)
+    - iac
+    - backend
 
 ## AWS deployment
 - sandbox008
@@ -49,6 +49,7 @@ https://www.terraform.io/
   - certificate (monkey.*) (us-east-1)
   - backend (monkey.*) (eu-west-1)
 
+
 ## Provision Infrastructure and Application
 - Plan and apply the common service
   - services/common/iac
@@ -56,26 +57,20 @@ https://www.terraform.io/
     - terraform plan
     - terraform apply
 - Plan and apply the monkey service
-  - services/monkey/iac (milestone #3)
-    - terraform init
-    - terraform plan
-    - terraform apply
-  - services/monkey/backend (milestone #3)
-    - terraform init
-    - terraform plan
-    - terraform apply
+  - services/monkey/backend
+    - dep ensure
+    - sh build.sh
   - services/monkey/web
+    - yarn install
+    - yarn build
+  - services/monkey
     - terraform init
     - terraform plan
     - terraform apply
 
 ## Destroy Infrastructure and Application
 - Destroy the monkey service
-  - services/monkey/web
-    - terraform destroy
-  - services/monkey/backend (milestone #3)
-    - terraform destroy
-  - services/monkey/iac (milestone #3)
+  - services/monkey
     - terraform destroy
 - Destroy the common service
   - services/common/iac

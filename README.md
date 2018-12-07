@@ -35,6 +35,8 @@ https://www.terraform.io/
   - NS record (eu-west-1)
   - public zone (eu-west-1)
   - website (eu-west-1)
+  - certificate (monkey.*) (us-east-1)
+  - backend (monkey.*) (eu-west-1)
 
 ## AWS deployment (milestone #3)
 - sandbox008 (sandbox.enlight.skf.com)
@@ -49,10 +51,9 @@ https://www.terraform.io/
   - certificate (monkey.*) (us-east-1)
   - backend (monkey.*) (eu-west-1)
 
-
 ## Provision Infrastructure and Application
 - Plan and apply the common service
-  - services/common/iac
+  - services/common
     - terraform init
     - terraform plan
     - terraform apply
@@ -73,5 +74,5 @@ https://www.terraform.io/
   - services/monkey
     - terraform destroy
 - Destroy the common service
-  - services/common/iac
+  - services/common
     - terraform destroy

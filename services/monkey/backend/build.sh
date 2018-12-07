@@ -62,6 +62,15 @@ echo '  rest_api_id = "${var.api_id}"' >> build/main.tf
 echo '  description = "${var.api_deployment}"' >> build/main.tf
 echo '}' >> build/main.tf
 
+echo '' >> build/main.tf
+echo 'resource "aws_api_gateway_base_path_mapping" "test" {' >> build/main.tf
+echo '  api_id      = "${var.api_id}"' >> build/main.tf
+echo '  stage_name  = "test"' >> build/main.tf
+echo '  domain_name = "${var.domain_name}"' >> build/main.tf
+echo '}' >> build/main.tf
+
+echo '' >> build/main.tf
+echo 'variable depends_on { default = [], type = "list"}' >> build/main.tf
 
 echo "Creates vars.tf"
 vars=()

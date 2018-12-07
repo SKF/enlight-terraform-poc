@@ -26,6 +26,13 @@ POLICY
   }
 }
 
+module "cert" {
+  source = "../certificate"
+
+  domain_name = "${var.root_domain_name}"
+  zone_id     = "${var.aws_route53_zone_id}"
+}
+
 resource "aws_cloudfront_distribution" "website_distribution" {
   origin {
     custom_origin_config {
@@ -68,7 +75,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = "${var.acm_certificate_arn}"
+    acm_certificate_arn = "${module.cert.arn}"
     ssl_support_method  = "sni-only"
   }
 }

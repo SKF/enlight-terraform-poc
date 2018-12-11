@@ -11,3 +11,10 @@ module "website" {
 	aws_route53_zone_id = "${module.public_zone.zone_id}"
 	root_domain_name    = "${var.root_domain_name}"
 }
+
+module "remote_state" {
+  source = "../../../modules/remote_state"
+
+  table_name = "${var.remote_state_table_name}"
+  bucket_name = "${var.remote_state_bucket_name}"
+}

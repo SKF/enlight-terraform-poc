@@ -1,3 +1,14 @@
+terraform {
+  backend "s3" {
+    encrypt = "true"
+    bucket  = "96dcf6978bce8352f0ce0e35f1caaf3f-terraform-remote-state-storage"
+    dynamodb_table = "96dcf6978bce8352f0ce0e35f1caaf3f-terraform-remote-state-lock"
+    key     = "monkey/terraform.tfstate"
+    region  = "eu-west-1"
+    profile = "sandbox"
+  }
+}
+
 provider "aws" {
   region  = "eu-west-1"
   profile = "sandbox"
@@ -10,17 +21,21 @@ provider "aws" {
 }
 
 data "terraform_remote_state" "common_infra" {
-  backend = "local"
-
+  backend = "s3" 
   config {
-    path = "../common/terraform.tfstate"
+    encrypt = "true"
+    bucket  = "96dcf6978bce8352f0ce0e35f1caaf3f-terraform-remote-state-storage"
+    dynamodb_table = "96dcf6978bce8352f0ce0e35f1caaf3f-terraform-remote-state-lock"
+    key     = "common/terraform.tfstate"
+    region  = "eu-west-1"
+    profile = "sandbox"
   }
 }
 
 module iac {
   source = "./iac"
 
-  zone_id     = "${data.terraform_remote_state.common_infra.zone_id}"
+  zone_id     = "${data.terraform_remote_state.common_infra.public_zone_id}"
   domain_name = "${var.api_domain_name}"
 }
 
@@ -35,7 +50,7 @@ module backend {
   api_id         = "${module.iac.api_id}"
   monkeys_path   = "${module.iac.monkeys_path_id}"
   monkey_id_path = "${module.iac.monkey_id_path_id}"
-  api_deployment = "${md5(file("backend/build/main.tf"))}"
+  api_deployment = "${md5(file("backend/build/lambdas.tf"))}"
   domain_name    = "${var.api_domain_name}"
 }
 

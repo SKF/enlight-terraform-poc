@@ -20,15 +20,19 @@ https://www.terraform.io/
 
 ## File structure
 - modules
+  - api_gateway
+  - certificate
+  - lambda
   - public_zone
+  - remote_state
   - website
 - services
   - common
     - iac
   - monkey
-    - web
-    - iac
     - backend
+    - iac
+    - web
 
 ## AWS deployment
 - sandbox008
@@ -37,6 +41,7 @@ https://www.terraform.io/
   - website (eu-west-1)
   - certificate (monkey.*) (us-east-1)
   - backend (monkey.*) (eu-west-1)
+  - remote state (eu-west-1)
 
 ## AWS deployment (milestone #3)
 - sandbox008 (sandbox.enlight.skf.com)

@@ -20,16 +20,16 @@ build() {
 	zip -q -X $output_file main
 	rm main
 
-	if [ -f "main.tf" ]; then
-		if [ -f "$root/build/main.tf" ]; then
-			echo "\n\n" >> "$root/build/main.tf"; 
+	if [ -f main.tf ]; then
+		if [ -f $root/build/lambdas.tf ]; then
+			echo "\n\n" >> $root/build/lambdas.tf; 
 		fi
-		echo "### AWS lambda: $basename ###" >> "$root/build/main.tf"
-		cat main.tf >> "$root/build/main.tf"
+		echo "### AWS lambda: $basename ###" >> $root/build/lambdas.tf
+		cat main.tf >> $root/build/lambdas.tf
 	fi
 	lambdas+=($basename)
 
-	if [ ! -f "$output_file" ]; then
+	if [ ! -f $output_file ]; then
 		echo "File '$output_file' not found!"
 		exit 1
 	fi
@@ -43,10 +43,6 @@ done
 
 
 echo "Adding AWS API Deployment to main.tf"
-if [ -f build/main.tf ]; then
-	echo "\n\n" >> build/main.tf; 
-fi
-
 echo "### AWS API Deployment ###" >> build/main.tf
 echo 'resource "aws_api_gateway_deployment" "test" {' >> build/main.tf
 echo '  depends_on = [' >> build/main.tf
@@ -76,6 +72,7 @@ echo "Creates vars.tf"
 vars=()
 re="var\.([a-z_]+)"
 s=`cat build/main.tf`
+s+=`cat build/lambdas.tf`
 while [[ $s =~ $re ]]; do
 	match=0
 	for e in "${vars[@]}"; do 

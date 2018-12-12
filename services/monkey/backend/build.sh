@@ -41,37 +41,9 @@ for main_file in `find cmd -type f -name main.go`; do
     build $main_file
 done
 
-
-echo "Adding AWS API Deployment to main.tf"
-echo "### AWS API Deployment ###" >> build/main.tf
-echo 'resource "aws_api_gateway_deployment" "test" {' >> build/main.tf
-echo '  depends_on = [' >> build/main.tf
-
-for e in "${lambdas[@]}";
-	do echo '    "module.'$e'_api_event",' >> build/main.tf ;
-done
-
-echo '  ]' >> build/main.tf
-echo '' >> build/main.tf
-echo '  stage_name  = "test"' >> build/main.tf
-echo '  rest_api_id = "${var.api_id}"' >> build/main.tf
-echo '  description = "${var.api_deployment}"' >> build/main.tf
-echo '}' >> build/main.tf
-
-echo '' >> build/main.tf
-echo 'resource "aws_api_gateway_base_path_mapping" "test" {' >> build/main.tf
-echo '  api_id      = "${var.api_id}"' >> build/main.tf
-echo '  stage_name  = "test"' >> build/main.tf
-echo '  domain_name = "${var.domain_name}"' >> build/main.tf
-echo '}' >> build/main.tf
-
-echo '' >> build/main.tf
-echo 'variable depends_on { default = [], type = "list"}' >> build/main.tf
-
 echo "Creates vars.tf"
 vars=()
 re="var\.([a-z_]+)"
-s=`cat build/main.tf`
 s+=`cat build/lambdas.tf`
 while [[ $s =~ $re ]]; do
 	match=0
@@ -86,5 +58,4 @@ while [[ $s =~ $re ]]; do
     s=${s#*"${BASH_REMATCH[1]}"}
 done
 
-docker system prune -af
 echo "Great success"

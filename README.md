@@ -4,6 +4,10 @@ The purpose with this PoC is to build an example with Terraform which takes into
 ## Terraform
 https://www.terraform.io/
 
+## Deployed
+https://terraform-poc.sandbox.enlight.skf.com
+https://api.monkeys.terraform-poc.sandbox.enlight.skf.com
+
 ## Why Terraform
 - Build vs. Buy, Terraform will replace Fluffy, a homebuilt solution ontop of AWS Cloudformation.
 - Multi cloud, even though we are currently not moving towards multi cloud, Terraform is built for it.

@@ -11,13 +11,6 @@ import (
 )
 
 type resp struct {
-	Content []monkey `json:"content"`
-	Links   []link   `json:"links"`
-}
-
-type monkey struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
 	Links []link `json:"links"`
 }
 
@@ -38,29 +31,11 @@ func handler(
 	resp.Links = []link{
 		{
 			Rel:  "self",
-			Href: fmt.Sprintf("%s/monkeys", apiURL),
-		},
-		{
-			Rel:  "up",
 			Href: fmt.Sprintf("%s", apiURL),
 		},
-	}
-	resp.Content = []monkey{
 		{
-			ID:   "1",
-			Name: "Bosse",
-			Links: []link{{
-				Rel:  "self",
-				Href: fmt.Sprintf("%s/monkeys/%s", apiURL, "1"),
-			}},
-		},
-		{
-			ID:   "2",
-			Name: "Uffe",
-			Links: []link{{
-				Rel:  "self",
-				Href: fmt.Sprintf("%s/monkeys/%s", apiURL, "2"),
-			}},
+			Rel:  "monkeys",
+			Href: fmt.Sprintf("%s/monkeys", apiURL),
 		},
 	}
 

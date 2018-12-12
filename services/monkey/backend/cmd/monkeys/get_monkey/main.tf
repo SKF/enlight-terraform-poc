@@ -3,6 +3,9 @@ module "get_monkey" {
 
   func_name = "get-monkey"
   filename  = "${path.module}/lambda-get_monkey.zip"
+  env       = {
+    "API_URL" = "https://${var.domain_name}"
+  }
 }
 
 module "get_monkey_api_event" {
@@ -19,5 +22,5 @@ resource "aws_lambda_permission" "get_monkey_invoke_permission" {
   action        = "lambda:InvokeFunction"
   function_name = "${module.get_monkey.arn}"
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_deployment.test.execution_arn}/*/*"
+  source_arn    = "${var.api_execution_arn}/${var.api_stage}/GET/*"
 }

@@ -13,9 +13,9 @@ resource "aws_api_gateway_resource" "monkeys" {
   path_part   = "monkeys"
 }
 
-# /monkeys/{proxy+}
+# /monkeys/{monkey_id}
 resource "aws_api_gateway_resource" "monkey_id" {
   rest_api_id = "${module.api_gateway.id}"
   parent_id   = "${aws_api_gateway_resource.monkeys.id}"
-  path_part   = "{proxy+}"
+  path_part   = "{monkey_id}"
 }

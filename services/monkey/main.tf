@@ -41,17 +41,38 @@ module iac {
 
 module backend {
   source     = "./backend/build"
+
+  api_id            = "${module.iac.api_id}"
+  api_execution_arn = "${module.iac.execution_arn}"
+  api_stage         = "${var.api_stage}"
+  root_path         = "${module.iac.root_path_id}"
+  monkeys_path      = "${module.iac.monkeys_path_id}"
+  monkey_id_path    = "${module.iac.monkey_id_path_id}"
+  domain_name       = "${var.api_domain_name}"
+}
+
+resource "null_resource" "deploy_api" {
   depends_on = [
-    "${module.iac.api_id}",
-    "${module.iac.monkeys_path_id}",
-    "${module.iac.monkey_id_path_id}"
+    "module.iac",
+    "module.backend",
   ]
 
-  api_id         = "${module.iac.api_id}"
-  monkeys_path   = "${module.iac.monkeys_path_id}"
-  monkey_id_path = "${module.iac.monkey_id_path_id}"
-  api_deployment = "${md5(file("backend/build/lambdas.tf"))}"
-  domain_name    = "${var.api_domain_name}"
+  triggers {
+    tf_lambdas_hash   = "${md5(file("backend/build/lambdas.tf"))}"
+    tf_api_hash       = "${md5(file("iac/api_gateway.tf"))}"
+  }
+
+  provisioner "local-exec" {
+    command = <<EOF
+    aws apigateway create-deployment --rest-api-id ${module.iac.api_id} --stage-name ${var.api_stage} --profile sandbox
+    EOF
+  }
+}
+
+resource "aws_api_gateway_base_path_mapping" "base_path" {
+  api_id      = "${module.iac.api_id}"
+  stage_name  = "${var.api_stage}"
+  domain_name = "${var.api_domain_name}"
 }
 
 module web {

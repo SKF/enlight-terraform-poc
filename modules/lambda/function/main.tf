@@ -8,6 +8,10 @@ resource "aws_lambda_function" "func" {
   runtime = "go1.x"
 
   role = "${aws_iam_role.lambda_exec.arn}"
+
+  environment {
+    variables = "${var.env}"
+  }
 }
 
 resource "aws_iam_role" "lambda_exec" {

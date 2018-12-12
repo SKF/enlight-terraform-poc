@@ -14,3 +14,11 @@ resource "aws_api_gateway_integration" "lambda" {
   type                    = "AWS_PROXY"
   uri                     = "${var.func_invoke_arn}"
 }
+
+resource "aws_lambda_permission" "get_monkeys_invoke_permission" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = "${var.func_arn}"
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${var.api_execution_arn}/${var.api_stage}/${var.http_method}/*"
+}

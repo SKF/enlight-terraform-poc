@@ -41,10 +41,18 @@ for main_file in `find cmd -type f -name main.go`; do
     build $main_file
 done
 
+echo "Copy terraform to build"
+cp -r terraform/* build
+
 echo "Creates vars.tf"
 vars=()
 re="var\.([a-z_]+)"
-s+=`cat build/lambdas.tf`
+
+s=""
+for tf_file in `find build -type f -name *.tf`; do
+    s+=`cat $tf_file`
+done
+
 while [[ $s =~ $re ]]; do
 	match=0
 	for e in "${vars[@]}"; do 

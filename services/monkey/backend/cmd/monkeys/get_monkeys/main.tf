@@ -1,26 +1,15 @@
 module "get_monkeys" {
-  source = "../../../../modules/lambda/function"
+  source = "../../../../modules/lambda/functions/api_method"
 
   func_name = "get-monkeys"
   filename  = "${path.module}/lambda-get_monkeys.zip"
   env       = {
     "API_URL" = "https://${var.domain_name}"
   }
-}
 
-module "get_monkeys_api_event" {
-  source = "../../../../modules/lambda/events/api_method"
-  
-  api_id          = "${var.api_id}"
-  api_resource_id = "${var.monkeys_path}"
-  http_method     = "GET"
-  func_invoke_arn = "${module.get_monkeys.invoke_arn}"
-}
-
-resource "aws_lambda_permission" "get_monkeys_invoke_permission" {
-  statement_id  = "AllowAPIGatewayInvoke"
-  action        = "lambda:InvokeFunction"
-  function_name = "${module.get_monkeys.arn}"
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${var.api_execution_arn}/${var.api_stage}/GET/*"
+  api_id            = "${module.api_gateway.id}"
+  api_resource_id   = "${aws_api_gateway_resource.monkeys.id}"
+  api_execution_arn = "${module.api_gateway.execution_arn}"
+  api_stage         = "${var.api_stage}"
+  http_method       = "GET"
 }

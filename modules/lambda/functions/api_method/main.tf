@@ -16,4 +16,6 @@ module "api_event" {
   http_method       = "${var.http_method}"
   func_arn          = "${module.func.arn}"
   func_invoke_arn   = "${module.func.invoke_arn}"
+  authorization     = "${var.authorization}"
+  authorizer_id     = "${var.authorizer_id}"
 }

@@ -19,26 +19,3 @@ resource "aws_api_gateway_resource" "monkey_id" {
   parent_id   = "${aws_api_gateway_resource.monkeys.id}"
   path_part   = "{monkey_id}"
 }
-
-resource "null_resource" "deploy_api" {
-  triggers {
-    tf_lambdas_hash   = "${var.tf_lambdas_hash}"
-    tf_api_hash       = "${var.tf_api_hash}"
-  }
-
-  provisioner "local-exec" {
-    command = <<EOF
-    aws apigateway create-deployment --rest-api-id ${module.api_gateway.id} --stage-name ${var.api_stage} --profile sandbox
-    EOF
-  }
-}
-
-resource "aws_api_gateway_base_path_mapping" "base_path" {
-  depends_on = [
-    "null_resource.deploy_api"
-  ]
-
-  api_id      = "${module.api_gateway.id}"
-  stage_name  = "${var.api_stage}"
-  domain_name = "${var.domain_name}"
-}

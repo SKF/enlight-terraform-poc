@@ -12,4 +12,6 @@ module "get_root" {
   api_execution_arn = "${module.api_gateway.execution_arn}"
   api_stage         = "${var.api_stage}"
   http_method       = "GET"
+  authorization     = "CUSTOM"
+  authorizer_id     = "${module.api_authorizer_event.id}"
 }

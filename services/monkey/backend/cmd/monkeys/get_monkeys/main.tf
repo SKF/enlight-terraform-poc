@@ -3,7 +3,8 @@ module "get_monkeys" {
 
   func_name = "get-monkeys"
   filename  = "${path.module}/lambda-get_monkeys.zip"
-  env       = {
+
+  env = {
     "API_URL" = "https://${var.domain_name}"
   }
 

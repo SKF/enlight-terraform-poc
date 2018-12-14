@@ -7,9 +7,9 @@ variable "func_arn" {}
 variable "func_invoke_arn" {}
 
 variable "authorization" {
-	default = "NONE"
+  default = "NONE"
 }
 
 variable "authorizer_id" {
-	default = ""
+  default = ""
 }

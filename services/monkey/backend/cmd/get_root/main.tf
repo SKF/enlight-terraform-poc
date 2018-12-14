@@ -3,7 +3,8 @@ module "get_root" {
 
   func_name = "get-root"
   filename  = "${path.module}/lambda-get_root.zip"
-  env       = {
+
+  env = {
     "API_URL" = "https://${var.domain_name}"
   }
 

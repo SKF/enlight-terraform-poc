@@ -1,7 +1,8 @@
 resource "aws_s3_bucket" "website" {
-  bucket = "${var.root_domain_name}"
-  acl    = "public-read"
+  bucket        = "${var.root_domain_name}"
+  acl           = "public-read"
   force_destroy = "true"
+
   policy = <<POLICY
 {
   "Version":"2012-10-17",
@@ -41,6 +42,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
       origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
     }
+
     domain_name = "${aws_s3_bucket.website.website_endpoint}"
     origin_id   = "${var.root_domain_name}"
   }
@@ -60,6 +62,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
 
     forwarded_values {
       query_string = false
+
       cookies {
         forward = "none"
       }
@@ -87,8 +90,8 @@ resource "aws_route53_record" "website" {
   type = "A"
 
   alias = {
-    name    = "${aws_cloudfront_distribution.website_distribution.domain_name}"
-    zone_id = "${aws_cloudfront_distribution.website_distribution.hosted_zone_id}"
+    name                   = "${aws_cloudfront_distribution.website_distribution.domain_name}"
+    zone_id                = "${aws_cloudfront_distribution.website_distribution.hosted_zone_id}"
     evaluate_target_health = true
   }
 }

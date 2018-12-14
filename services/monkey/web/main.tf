@@ -15,6 +15,7 @@ resource "null_resource" "upload_web_app" {
 
   provisioner "local-exec" {
     when = "destroy"
+
     command = <<EOF
     aws s3 rm --profile sandbox s3://${var.bucket_id} --recursive
     EOF

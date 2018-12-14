@@ -3,7 +3,8 @@ module "authorizer" {
 
   func_name = "authorizer"
   filename  = "${path.module}/lambda-authorizer.zip"
-  env       = {
+
+  env = {
     "DUMMY" = "ENV_CANT_BE_EMPTY_-_SAD_SMILEY"
   }
 }

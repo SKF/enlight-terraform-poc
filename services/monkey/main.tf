@@ -1,11 +1,11 @@
 terraform {
   backend "s3" {
-    encrypt = "true"
-    bucket  = "96dcf6978bce8352f0ce0e35f1caaf3f-terraform-remote-state-storage"
+    encrypt        = "true"
+    bucket         = "96dcf6978bce8352f0ce0e35f1caaf3f-terraform-remote-state-storage"
     dynamodb_table = "96dcf6978bce8352f0ce0e35f1caaf3f-terraform-remote-state-lock"
-    key     = "monkey/terraform.tfstate"
-    region  = "eu-west-1"
-    profile = "sandbox"
+    key            = "monkey/terraform.tfstate"
+    region         = "eu-west-1"
+    profile        = "sandbox"
   }
 }
 
@@ -21,23 +21,24 @@ provider "aws" {
 }
 
 data "terraform_remote_state" "common_infra" {
-  backend = "s3" 
+  backend = "s3"
+
   config {
-    encrypt = "true"
-    bucket  = "96dcf6978bce8352f0ce0e35f1caaf3f-terraform-remote-state-storage"
+    encrypt        = "true"
+    bucket         = "96dcf6978bce8352f0ce0e35f1caaf3f-terraform-remote-state-storage"
     dynamodb_table = "96dcf6978bce8352f0ce0e35f1caaf3f-terraform-remote-state-lock"
-    key     = "common/terraform.tfstate"
-    region  = "eu-west-1"
-    profile = "sandbox"
+    key            = "common/terraform.tfstate"
+    region         = "eu-west-1"
+    profile        = "sandbox"
   }
 }
 
 module backend {
   source = "./backend/build"
 
-  zone_id         = "${data.terraform_remote_state.common_infra.public_zone_id}"
-  domain_name     = "${var.api_domain_name}"
-  api_stage       = "${var.api_stage}"
+  zone_id     = "${data.terraform_remote_state.common_infra.public_zone_id}"
+  domain_name = "${var.api_domain_name}"
+  api_stage   = "${var.api_stage}"
 }
 
 # The deploy is in this file due to unresolved dependency issues when having it in the Backend module.
@@ -60,7 +61,7 @@ resource "null_resource" "deploy_api" {
 
 resource "aws_api_gateway_base_path_mapping" "base_path" {
   depends_on = [
-    "null_resource.deploy_api"
+    "null_resource.deploy_api",
   ]
 
   api_id      = "${module.backend.api_id}"

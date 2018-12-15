@@ -75,4 +75,5 @@ module web {
 
   bucket_id     = "${data.terraform_remote_state.common_infra.website_bucket_id}"
   cloudfront_id = "${data.terraform_remote_state.common_infra.website_cloudfront_id}"
+  api_url       = "https://${var.api_domain_name}"
 }

@@ -1,5 +1,6 @@
-resource "null_resource" "upload_web_app" {
+resource "null_resource" "config_and_upload_web_app" {
   triggers {
+    api_url        = "${var.api_url}"
     asset_manifest = "${md5(file("${path.module}/build/asset-manifest.json"))}"
     manifest       = "${md5(file("${path.module}/build/manifest.json"))}"
     index          = "${md5(file("${path.module}/build/index.html"))}"
@@ -8,6 +9,9 @@ resource "null_resource" "upload_web_app" {
 
   provisioner "local-exec" {
     command = <<EOF
+    echo 'const config = {' > build/config.js
+    echo '     "api": "${var.api_url}"' >> build/config.js
+    echo '};' >> build/config.js
     aws s3 sync --profile sandbox ${path.module}/build/ s3://${var.bucket_id} &&
     aws cloudfront create-invalidation --profile sandbox --distribution-id ${var.cloudfront_id} --paths "/*"
     EOF

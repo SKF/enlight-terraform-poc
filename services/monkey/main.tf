@@ -36,9 +36,10 @@ data "terraform_remote_state" "common_infra" {
 module backend {
   source = "./backend/build"
 
-  zone_id     = "${data.terraform_remote_state.common_infra.public_zone_id}"
-  domain_name = "${var.api_domain_name}"
-  api_stage   = "${var.api_stage}"
+  zone_id               = "${data.terraform_remote_state.common_infra.public_zone_id}"
+  domain_name           = "${var.api_domain_name}"
+  api_stage             = "${var.api_stage}"
+  lambda_storage_bucket = "${data.terraform_remote_state.common_infra.lambda_storage_bucket}"
 }
 
 # The deploy is in this file due to unresolved dependency issues when having it in the Backend module.

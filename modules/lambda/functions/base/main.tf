@@ -1,8 +1,16 @@
+resource "aws_s3_bucket_object" "lambda" {
+  bucket = "${var.bucket}"
+  key    = "${basename(var.filename)}"
+  source = "${var.filename}"
+  etag   = "${md5(file(var.filename))}"
+}
+
 resource "aws_lambda_function" "func" {
   function_name = "${var.func_name}"
 
-  filename         = "${var.filename}"
-  source_code_hash = "${base64sha256(file(var.filename))}"
+  s3_bucket         = "${aws_s3_bucket_object.lambda.bucket}"
+  s3_key            = "${aws_s3_bucket_object.lambda.key}"
+  s3_object_version = "${aws_s3_bucket_object.lambda.version_id}"
 
   handler = "main"
   runtime = "go1.x"

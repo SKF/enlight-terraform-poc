@@ -6,6 +6,13 @@ module "api_gateway" {
   domain_name = "${var.domain_name}"
 }
 
+module "root_options" {
+  source = "../../../../modules/options_method"
+
+  api_id      = "${module.api_gateway.id}"
+  resource_id = "${module.api_gateway.root_resource_id}"
+}
+
 # /monkeys
 resource "aws_api_gateway_resource" "monkeys" {
   rest_api_id = "${module.api_gateway.id}"
@@ -13,9 +20,23 @@ resource "aws_api_gateway_resource" "monkeys" {
   path_part   = "monkeys"
 }
 
+module "monkeys_options" {
+  source = "../../../../modules/options_method"
+
+  api_id      = "${module.api_gateway.id}"
+  resource_id = "${aws_api_gateway_resource.monkeys.id}"
+}
+
 # /monkeys/{monkey_id}
 resource "aws_api_gateway_resource" "monkey_id" {
   rest_api_id = "${module.api_gateway.id}"
   parent_id   = "${aws_api_gateway_resource.monkeys.id}"
   path_part   = "{monkey_id}"
+}
+
+module "monkey_id_options" {
+  source = "../../../../modules/options_method"
+
+  api_id      = "${module.api_gateway.id}"
+  resource_id = "${aws_api_gateway_resource.monkey_id.id}"
 }

@@ -18,3 +18,7 @@ module "remote_state" {
   table_name  = "${var.remote_state_table_name}"
   bucket_name = "${var.remote_state_bucket_name}"
 }
+
+module "lambda_storage" {
+  source = "../../../modules/lambda/storage"
+}

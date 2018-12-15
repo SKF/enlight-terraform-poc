@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type resp struct {
+type response struct {
 	Links []link `json:"links"`
 }
 
@@ -27,11 +27,11 @@ func handler(
 	error,
 ) {
 	apiURL := os.Getenv("API_URL")
-	var resp resp
+	var resp response
 	resp.Links = []link{
 		{
 			Rel:  "self",
-			Href: fmt.Sprintf("%s", apiURL),
+			Href: apiURL,
 		},
 		{
 			Rel:  "monkeys",
@@ -42,6 +42,7 @@ func handler(
 	body, _ := json.Marshal(resp)
 	return events.APIGatewayProxyResponse{
 		Body:       string(body),
+		Headers:    map[string]string{"Access-Control-Allow-Origin": "*"},
 		StatusCode: 200,
 	}, nil
 }

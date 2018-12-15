@@ -52,6 +52,7 @@ func handler(
 	body, _ := json.Marshal(resp)
 	return events.APIGatewayProxyResponse{
 		Body:       string(body),
+		Headers:    map[string]string{"Access-Control-Allow-Origin": "*"},
 		StatusCode: 200,
 	}, nil
 }

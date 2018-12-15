@@ -3,6 +3,7 @@ module "authorizer" {
 
   func_name = "authorizer"
   filename  = "${path.module}/lambda-authorizer.zip"
+  bucket    = "${var.lambda_storage_bucket}"
 
   env = {
     "DUMMY" = "ENV_CANT_BE_EMPTY_-_SAD_SMILEY"

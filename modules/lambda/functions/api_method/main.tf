@@ -3,6 +3,7 @@ module "func" {
 
   func_name = "${var.func_name}"
   filename  = "${var.filename}"
+  bucket    = "${var.bucket}"
   env       = "${var.env}"
 }
 

@@ -11,13 +11,19 @@ terraform {
 
 provider "aws" {
   region  = "eu-west-1"
-  profile = "sandbox"
+  profile = "${var.aws_service_profile}"
 }
 
 provider "aws" {
-  alias   = "us_east_1"
+  alias   = "global"
   region  = "us-east-1"
-  profile = "sandbox"
+  profile = "${var.aws_service_profile}"
+}
+
+provider "aws" {
+  alias   = "prod"
+  region  = "eu-west-1"
+  profile = "${var.aws_prod_profile}"
 }
 
 module iac {

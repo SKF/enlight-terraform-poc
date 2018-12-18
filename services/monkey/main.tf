@@ -11,13 +11,19 @@ terraform {
 
 provider "aws" {
   region  = "eu-west-1"
-  profile = "sandbox"
+  profile = "${var.aws_service_profile}"
 }
 
 provider "aws" {
-  alias   = "us_east_1"
+  alias   = "global"
   region  = "us-east-1"
-  profile = "sandbox"
+  profile = "${var.aws_service_profile}"
+}
+
+provider "aws" {
+  alias   = "prod"
+  region  = "eu-west-1"
+  profile = "${var.aws_prod_profile}"
 }
 
 data "terraform_remote_state" "common_infra" {
@@ -36,8 +42,9 @@ data "terraform_remote_state" "common_infra" {
 module backend {
   source = "./backend/build"
 
-  zone_id               = "${data.terraform_remote_state.common_infra.public_zone_id}"
-  domain_name           = "${var.api_domain_name}"
+  root_hosted_zone_id   = "${data.terraform_remote_state.common_infra.public_zone_id}"
+  root_domain_name      = "${var.root_domain_name}"
+  api_domain_name       = "${var.api_domain_name}"
   api_stage             = "${var.api_stage}"
   lambda_storage_bucket = "${data.terraform_remote_state.common_infra.lambda_storage_bucket}"
 }
@@ -55,7 +62,7 @@ resource "null_resource" "deploy_api" {
 
   provisioner "local-exec" {
     command = <<EOF
-    aws apigateway create-deployment --rest-api-id ${module.backend.api_id} --stage-name ${var.api_stage} --profile sandbox
+    aws apigateway create-deployment --rest-api-id ${module.backend.api_id} --stage-name ${var.api_stage} --profile ${var.aws_service_profile}
     EOF
   }
 }
@@ -76,4 +83,5 @@ module web {
   bucket_id     = "${data.terraform_remote_state.common_infra.website_bucket_id}"
   cloudfront_id = "${data.terraform_remote_state.common_infra.website_cloudfront_id}"
   api_url       = "https://${var.api_domain_name}"
+  aws_profile   = "${var.aws_common_profile}"
 }

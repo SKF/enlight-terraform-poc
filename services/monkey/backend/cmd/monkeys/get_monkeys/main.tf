@@ -6,7 +6,7 @@ module "get_monkeys" {
   bucket    = "${var.lambda_storage_bucket}"
 
   env = {
-    "API_URL" = "https://${var.domain_name}"
+    "API_URL" = "https://${var.api_domain_name}"
   }
 
   api_id            = "${module.api_gateway.id}"

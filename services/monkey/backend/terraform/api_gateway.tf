@@ -2,8 +2,8 @@ module "api_gateway" {
   source = "../../../../modules/api_gateway"
 
   api_name    = "terraform-poc"
-  zone_id     = "${var.zone_id}"
-  domain_name = "${var.domain_name}"
+  zone_id     = "${module.public_zone.zone_id}"
+  domain_name = "${var.api_domain_name}"
 }
 
 module "root_options" {

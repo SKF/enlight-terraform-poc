@@ -10,6 +10,6 @@ variable "aws_service_profile" {
   default = "sandbox"
 }
 
-variable "aws_prod_profile" {
+variable "aws_root_profile" {
   default = "sandbox"
 }

@@ -3,7 +3,7 @@ resource "aws_route53_zone" "public_zone" {
 }
 
 resource "aws_route53_record" "zone_ns" {
-  provider = "aws.prod"
+  provider = "aws.root"
 
   zone_id = "${var.root_hosted_zone_id}"
   name    = "${var.domain_name}"

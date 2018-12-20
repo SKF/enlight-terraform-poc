@@ -4,7 +4,7 @@ resource "aws_api_gateway_rest_api" "web_api" {
 }
 
 module "cert" {
-  source = "../certificate"
+  source = "../../certificate"
 
   domain_name = "${var.domain_name}"
   zone_id     = "${var.zone_id}"

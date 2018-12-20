@@ -32,10 +32,10 @@ https://api.monkeys.terraform-poc.sandbox.enlight.skf.com
   - website
 - services
   - common
-    - iac
+    - terraform
   - monkey
     - backend
-    - iac
+    - terraform
     - web
 
 ## AWS deployment
@@ -62,7 +62,7 @@ https://api.monkeys.terraform-poc.sandbox.enlight.skf.com
 
 ## Provision Infrastructure and Application
 - Plan and apply the common service
-  - services/common
+  - services/common/terraform/dev
     - terraform init
     - terraform plan
     - terraform apply
@@ -73,15 +73,15 @@ https://api.monkeys.terraform-poc.sandbox.enlight.skf.com
   - services/monkey/web
     - yarn install
     - yarn build
-  - services/monkey
+  - services/monkey/terraform/dev
     - terraform init
     - terraform plan
     - terraform apply
 
 ## Destroy Infrastructure and Application
 - Destroy the monkey service
-  - services/monkey
+  - services/monkey/terraform/dev
     - terraform destroy
 - Destroy the common service
-  - services/common
+  - services/common/terraform/dev
     - terraform destroy

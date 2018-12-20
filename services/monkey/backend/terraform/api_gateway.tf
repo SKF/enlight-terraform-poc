@@ -1,5 +1,5 @@
 module "api_gateway" {
-  source = "../../../../modules/api_gateway"
+  source = "../../../../modules/api_gateway/rest_api"
 
   api_name    = "terraform-poc"
   zone_id     = "${module.public_zone.zone_id}"
@@ -7,7 +7,7 @@ module "api_gateway" {
 }
 
 module "root_options" {
-  source = "../../../../modules/options_method"
+  source = "../../../../modules/api_gateway/options_method"
 
   api_id      = "${module.api_gateway.id}"
   resource_id = "${module.api_gateway.root_resource_id}"
@@ -21,7 +21,7 @@ resource "aws_api_gateway_resource" "monkeys" {
 }
 
 module "monkeys_options" {
-  source = "../../../../modules/options_method"
+  source = "../../../../modules/api_gateway/options_method"
 
   api_id      = "${module.api_gateway.id}"
   resource_id = "${aws_api_gateway_resource.monkeys.id}"
@@ -35,7 +35,7 @@ resource "aws_api_gateway_resource" "monkey_id" {
 }
 
 module "monkey_id_options" {
-  source = "../../../../modules/options_method"
+  source = "../../../../modules/api_gateway/options_method"
 
   api_id      = "${module.api_gateway.id}"
   resource_id = "${aws_api_gateway_resource.monkey_id.id}"

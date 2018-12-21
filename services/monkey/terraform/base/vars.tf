@@ -7,7 +7,6 @@ variable "api_stage" {
 }
 
 variable "public_zone_id" {}
-variable "lambda_storage_bucket" {}
 variable "website_bucket_id" {}
 variable "website_cloudfront_id" {}
 

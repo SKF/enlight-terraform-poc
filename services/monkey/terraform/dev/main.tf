@@ -30,7 +30,6 @@ module base {
   aws_root_profile      = "${var.aws_root_profile}"
   aws_common_profile    = "${var.aws_common_profile}"
   public_zone_id        = "${data.terraform_remote_state.common_infra.public_zone_id}"
-  lambda_storage_bucket = "${data.terraform_remote_state.common_infra.lambda_storage_bucket}"
   website_bucket_id     = "${data.terraform_remote_state.common_infra.website_bucket_id}"
   website_cloudfront_id = "${data.terraform_remote_state.common_infra.website_cloudfront_id}"
 }

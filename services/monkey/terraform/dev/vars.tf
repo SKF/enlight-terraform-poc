@@ -7,7 +7,7 @@ variable "api_domain_name" {
 }
 
 variable "aws_service_profile" {
-  default = "sandbox"
+  default = "demo"
 }
 
 variable "aws_root_profile" {

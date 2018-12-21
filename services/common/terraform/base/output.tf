@@ -9,7 +9,3 @@ output "website_bucket_id" {
 output "website_cloudfront_id" {
   value = "${module.website.cloudfront_id}"
 }
-
-output "lambda_storage_bucket" {
-  value = "${module.lambda_storage.bucket}"
-}

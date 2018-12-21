@@ -18,11 +18,10 @@ provider "aws" {
 module backend {
   source = "../../backend/build"
 
-  root_hosted_zone_id   = "${var.public_zone_id}"
-  root_domain_name      = "${var.root_domain_name}"
-  api_domain_name       = "${var.api_domain_name}"
-  api_stage             = "${var.api_stage}"
-  lambda_storage_bucket = "${var.lambda_storage_bucket}"
+  root_hosted_zone_id = "${var.public_zone_id}"
+  root_domain_name    = "${var.root_domain_name}"
+  api_domain_name     = "${var.api_domain_name}"
+  api_stage           = "${var.api_stage}"
 }
 
 # The deploy is in this file due to unresolved dependency issues when having it in the Backend module.

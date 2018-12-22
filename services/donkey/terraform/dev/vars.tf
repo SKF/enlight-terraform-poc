@@ -1,13 +1,13 @@
 variable "root_domain_name" {
-  default = "monkey.terraform-zoo.sandbox.enlight.skf.com"
+  default = "donkey.terraform-zoo.sandbox.enlight.skf.com"
 }
 
 variable "api_domain_name" {
-  default = "api.monkey.terraform-zoo.sandbox.enlight.skf.com"
+  default = "api.donkey.terraform-zoo.sandbox.enlight.skf.com"
 }
 
 variable "aws_service_profile" {
-  default = "monkey_dev"
+  default = "donkey_dev"
 }
 
 variable "aws_root_profile" {

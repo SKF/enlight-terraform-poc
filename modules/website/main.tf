@@ -1,10 +1,16 @@
 locals {
   monkey = "monkey"
+  donkey = "donkey"
 }
 
 module "monkey_bucket" {
   source  = "bucket"
   service = "${local.monkey}"
+}
+
+module "donkey_bucket" {
+  source  = "bucket"
+  service = "${local.donkey}"
 }
 
 module "cert" {
@@ -26,6 +32,17 @@ resource "aws_cloudfront_distribution" "website_distribution" {
 
       domain_name = "${module.monkey_bucket.website_endpoint}"
       origin_id   = "${local.monkey}"
+    },
+    {
+      custom_origin_config {
+        http_port              = "80"
+        https_port             = "443"
+        origin_protocol_policy = "http-only"
+        origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+      }
+
+      domain_name = "${module.donkey_bucket.website_endpoint}"
+      origin_id   = "${local.donkey}"
     },
   ]
 
@@ -61,7 +78,26 @@ resource "aws_cloudfront_distribution" "website_distribution" {
       min_ttl                = 0
       default_ttl            = 86400
       max_ttl                = 31536000
-      path_pattern           = "${local.monkey}/*"
+      path_pattern           = "/${local.monkey}*"
+
+      forwarded_values {
+        query_string = false
+
+        cookies {
+          forward = "none"
+        }
+      }
+    },
+    {
+      viewer_protocol_policy = "redirect-to-https"
+      compress               = true
+      allowed_methods        = ["GET", "HEAD"]
+      cached_methods         = ["GET", "HEAD"]
+      target_origin_id       = "${local.donkey}"
+      min_ttl                = 0
+      default_ttl            = 86400
+      max_ttl                = 31536000
+      path_pattern           = "/${local.donkey}*"
 
       forwarded_values {
         query_string = false

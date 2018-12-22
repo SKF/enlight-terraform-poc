@@ -1,6 +1,7 @@
 output "buckets" {
   value = {
     "${local.monkey}" = "${module.monkey_bucket.bucket}"
+    "${local.donkey}" = "${module.donkey_bucket.bucket}"
   }
 }
 

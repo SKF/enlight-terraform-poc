@@ -1,7 +1,7 @@
 module "api_gateway" {
   source = "../../../../modules/api_gateway/rest_api"
 
-  api_name    = "terraform-poc"
+  api_name    = "monkey"
   zone_id     = "${module.public_zone.zone_id}"
   domain_name = "${var.api_domain_name}"
 }

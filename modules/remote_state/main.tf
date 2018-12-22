@@ -1,6 +1,7 @@
 resource "aws_s3_bucket" "remote-state" {
-  bucket = "${var.bucket_name}"
-  acl    = "private"
+  bucket        = "${var.bucket_name}"
+  acl           = "private"
+  force_destroy = "true"
 
   versioning {
     enabled = "true"

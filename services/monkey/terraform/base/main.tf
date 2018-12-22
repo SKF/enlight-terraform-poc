@@ -55,7 +55,7 @@ resource "aws_api_gateway_base_path_mapping" "base_path" {
 module web {
   source = "../../web/build"
 
-  bucket_id     = "${var.website_bucket_id}"
+  bucket        = "${var.website_bucket}"
   cloudfront_id = "${var.website_cloudfront_id}"
   api_url       = "https://${var.api_domain_name}"
   aws_profile   = "${var.aws_common_profile}"

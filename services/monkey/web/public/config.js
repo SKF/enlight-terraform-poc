@@ -1,3 +1,3 @@
 const config = {
-    "api": ""
+    "api": "https://api.monkey.terraform-zoo.sandbox.enlight.skf.com"
 };

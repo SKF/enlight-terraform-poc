@@ -1,9 +1,9 @@
 variable "root_domain_name" {
-  default = "monkeys.terraform-poc.sandbox.enlight.skf.com"
+  default = "monkey.terraform-zoo.sandbox.enlight.skf.com"
 }
 
 variable "api_domain_name" {
-  default = "api.monkeys.terraform-poc.sandbox.enlight.skf.com"
+  default = "api.monkey.terraform-zoo.sandbox.enlight.skf.com"
 }
 
 variable "aws_service_profile" {

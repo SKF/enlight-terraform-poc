@@ -7,7 +7,7 @@ variable "api_stage" {
 }
 
 variable "public_zone_id" {}
-variable "website_bucket_id" {}
+variable "website_bucket" {}
 variable "website_cloudfront_id" {}
 
 variable "aws_service_profile" {}

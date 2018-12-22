@@ -1,6 +1,6 @@
 {
-  "short_name": "Monkeys",
-  "name": "The Monkeys App",
+  "short_name": "Terraform Zoo",
+  "name": "Terraform Zoo",
   "icons": [
     {
       "src": "favicon.ico",

@@ -1,5 +1,7 @@
-output "bucket_id" {
-  value = "${aws_s3_bucket.website.id}"
+output "buckets" {
+  value = {
+    "${local.monkey}" = "${module.monkey_bucket.bucket}"
+  }
 }
 
 output "cloudfront_id" {

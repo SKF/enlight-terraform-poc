@@ -12,7 +12,7 @@ resource "null_resource" "config_and_upload_web_app" {
     echo 'const config = {' > ${path.module}/config.js
     echo '     "api": "${var.api_url}"' >> ${path.module}/config.js
     echo '};' >> ${path.module}/config.js
-    aws s3 sync --profile ${var.aws_profile} --exclude "*.tf" ${path.module}/ s3://${var.bucket_id} &&
+    aws s3 sync --profile ${var.aws_profile} --exclude "*.tf" ${path.module}/ s3://${var.bucket}/monkey &&
     aws cloudfront create-invalidation --profile ${var.aws_profile} --distribution-id ${var.cloudfront_id} --paths "/*"
     EOF
   }
@@ -21,7 +21,7 @@ resource "null_resource" "config_and_upload_web_app" {
     when = "destroy"
 
     command = <<EOF
-    aws s3 rm --profile ${var.aws_profile} s3://${var.bucket_id} --recursive
+    aws s3 rm --profile ${var.aws_profile} s3://${var.bucket} --recursive
     EOF
   }
 }

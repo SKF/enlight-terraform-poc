@@ -1,5 +1,5 @@
 module "api_gateway" {
-  source = "../../../common/modules/api_gateway/rest_api"
+  source = "../../../common/terraform/modules/api_gateway/rest_api"
 
   api_name    = "donkey"
   zone_id     = "${module.public_zone.zone_id}"
@@ -7,7 +7,7 @@ module "api_gateway" {
 }
 
 module "root_options" {
-  source = "../../../common/modules/api_gateway/options_method"
+  source = "../../../common/terraform/modules/api_gateway/options_method"
 
   api_id      = "${module.api_gateway.id}"
   resource_id = "${module.api_gateway.root_resource_id}"
@@ -21,7 +21,7 @@ resource "aws_api_gateway_resource" "donkeys" {
 }
 
 module "donkeys_options" {
-  source = "../../../common/modules/api_gateway/options_method"
+  source = "../../../common/terraform/modules/api_gateway/options_method"
 
   api_id      = "${module.api_gateway.id}"
   resource_id = "${aws_api_gateway_resource.donkeys.id}"
@@ -35,7 +35,7 @@ resource "aws_api_gateway_resource" "donkey_id" {
 }
 
 module "donkey_id_options" {
-  source = "../../../common/modules/api_gateway/options_method"
+  source = "../../../common/terraform/modules/api_gateway/options_method"
 
   api_id      = "${module.api_gateway.id}"
   resource_id = "${aws_api_gateway_resource.donkey_id.id}"

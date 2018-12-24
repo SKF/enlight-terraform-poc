@@ -1,5 +1,5 @@
 module "authorizer" {
-  source = "../../../common/modules/lambda/functions/base"
+  source = "../../../common/terraform/modules/lambda/functions/base"
 
   func_name = "authorizer"
   filename  = "${path.module}/lambda-authorizer.zip"
@@ -11,7 +11,7 @@ module "authorizer" {
 }
 
 module "api_authorizer_event" {
-  source = "../../../common/modules/lambda/events/api_authorizer"
+  source = "../../../common/terraform/modules/lambda/events/api_authorizer"
 
   authorizer_name = "CUSTOM"
   api_id          = "${module.api_gateway.id}"

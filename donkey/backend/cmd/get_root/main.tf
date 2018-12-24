@@ -1,5 +1,5 @@
 module "get_root" {
-  source = "../../../common/modules/lambda/functions/api_method"
+  source = "../../../common/terraform/modules/lambda/functions/api_method"
 
   func_name = "get-root"
   filename  = "${path.module}/lambda-get_root.zip"

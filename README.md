@@ -5,83 +5,109 @@ The purpose with this PoC is to build an example with Terraform which takes into
 https://www.terraform.io/
 
 ## Deployed
-https://terraform-poc.sandbox.enlight.skf.com
-https://api.monkeys.terraform-poc.sandbox.enlight.skf.com
+### Terraform Zoo
+- https://terraform-zoo.sandbox.enlight.skf.com
+### Monkey
+- https://terraform-zoo.sandbox.enlight.skf.com/monkey
+- https://api.monkey.terraform-zoo.sandbox.enlight.skf.com
+### Donkey
+- https://terraform-zoo.sandbox.enlight.skf.com/donkey
+- https://api.donkey.terraform-zoo.sandbox.enlight.skf.com
 
 ## Why Terraform
-- Build vs. Buy, Terraform will replace Fluffy, a homebuilt solution ontop of AWS Cloudformation.
+- Build vs. Buy, Terraform would replace Fluffy, a homebuilt solution ontop of Troposphere and AWS Cloudformation.
 - Multi cloud, even though we are currently not moving towards multi cloud, Terraform is built for it.
 - Provision other things than AWS resources, Terraform wouldn't just support Infrastructure resources in AWS or Azure, it also supports custom resources, like adding a developer to Enlight, AWS and Azure Devops, which would help with onboarding/offboarding.
 - Up to date, Fluffy is built ontop of Troposphere which is a community driven tool for writing cloudformation templates in Python, while Terraform has HashiCorp, a larger community and major cloud providers like AWS and Azure as contributers.
 
 ## When done, we will be able to
-- create a new public hosted zone and add its Name Servers to `sandbox.enlight.skf.com`
-- create an SSL certificate for the new subdomain
-- create an S3 bucket with a CDN to be used for website hosting similar to the ONE-CDN solution in Enlight
-- upload a web app to the S3 bucket from a second terraform state
-- create a backend including a new public hosted zone and certificate from a third terraform state
-- access a web app on `https://terraform_poc.sandbox.enlight.skf.com/monkey`
+### Common
+- create storage for remote Terraform state in S3
+- create a new public hosted zone `terraform-zoo.sandbox.enlight.skf.com` and add its Name Servers to `sandbox.enlight.skf.com`
+- create an S3 bucket with a CDN to be used for website hosting similar to the ONE-CDN solution in Enlight with an SSL certificate
+### For the Donkey and Monkey service
+- upload web app to the S3 bucket
+- create a new public hosted zone `service.terraform-zoo.sandbox.enlight.skf.com` and add its Name Servers to `terraform-zoo.sandbox.enlight.skf.com`
+- create api including certificate
 
 ## File structure
-- modules
-  - api_gateway
-  - certificate
-  - lambda
-  - public_zone
-  - remote_state
-  - website
-- services
-  - common
+- common
+  - terraform
+    - modules
+      - api_gateway
+        - options_method
+        - rest_api
+      - certificate
+      - lambda
+        - events
+          - api_authorizer
+          - api_method
+        - functions
+          - api_method
+          - base
+        - storage
+      - public_zone
+      - remote_state
+      - website
+    - base
+    - dev
+- donkey
+  - backend
     - terraform
-  - monkey
-    - backend
+  - terraform
+    - base
+    - dev
+  - web
     - terraform
-    - web
+- monkey
+  - backend
+    - terraform
+  - terraform
+    - base
+    - dev
+  - web
+    - terraform
+
 
 ## AWS deployment
-- sandbox008
-  - NS record (eu-west-1)
-  - public zone (eu-west-1)
-  - website (eu-west-1)
-  - certificate (monkey.*) (us-east-1)
-  - backend (monkey.*) (eu-west-1)
-  - remote state (eu-west-1)
-
-## AWS deployment (milestone #3)
-- sandbox008 (sandbox.enlight.skf.com)
-  - NS record (terraform_poc.*) (eu-west-1)
-- sandbox010 (terraform_poc.sandbox.enlight.skf.com)
-  - public zone (terraform_poc.*) (eu-west-1)
-  - NS record (monkey.*) (eu-west-1)
-  - certificate (terraform_poc.*) (us-east-1)
-  - website (terraform_poc.*) (eu-west-1)
-- sandbox*** (monkey.terraform_poc.sandbox.enlight.skf.com)
-  - public zone (monkey.*) (eu-west-1)
-  - certificate (monkey.*) (us-east-1)
-  - backend (monkey.*) (eu-west-1)
+- terraform_poc.sandbox.enlight.skf.com
+  - public zone
+  - website (terraform-zoo.sandbox.enlight.skf.com)
+    - certificate
+  - Remote state storage
+- donkey.terraform_poc.sandbox.enlight.skf.com
+  - public zone
+  - api
+    - certificate
+  - lambda bucket
+- monkey.terraform-zoo.sandbox.enlight.skf.com
+  - public zone
+  - api
+    - certificate
+  - lambda bucket
 
 ## Provision Infrastructure and Application
 - Plan and apply the common service
-  - services/common/terraform/dev
+  - common/terraform/dev
     - terraform init
     - terraform plan
     - terraform apply
-- Plan and apply the monkey service
-  - services/monkey/backend
+- Plan and apply the donkey and monkey service
+  - \<service\>/backend
     - dep ensure
     - sh build.sh
-  - services/monkey/web
+  - \<service\>/web
     - yarn install
     - yarn build
-  - services/monkey/terraform/dev
+  - \<service\>/terraform/dev
     - terraform init
     - terraform plan
     - terraform apply
 
 ## Destroy Infrastructure and Application
-- Destroy the monkey service
-  - services/monkey/terraform/dev
+- Destroy the donkey and monkey service
+  - \<service\>/terraform/dev
     - terraform destroy
 - Destroy the common service
-  - services/common/terraform/dev
+  - common/terraform/dev
     - terraform destroy

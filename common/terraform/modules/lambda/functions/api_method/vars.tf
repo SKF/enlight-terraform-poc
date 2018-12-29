@@ -13,3 +13,15 @@ variable "api_stage" {}
 variable "http_method" {}
 variable "authorization" {}
 variable "authorizer_id" {}
+
+variable "datadog" {
+  default = "false"
+}
+
+variable "datadog_log_collector_arn" {
+  default = ""
+}
+
+variable "datadog_log_collector_name" {
+  default = ""
+}

@@ -5,6 +5,9 @@ module "func" {
   filename  = "${var.filename}"
   bucket    = "${var.bucket}"
   env       = "${var.env}"
+
+  datadog_log_collector_arn  = "${var.datadog_log_collector_arn}"
+  datadog_log_collector_name = "${var.datadog_log_collector_name}"
 }
 
 module "api_event" {

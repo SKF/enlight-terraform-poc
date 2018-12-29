@@ -22,6 +22,8 @@ module backend {
   root_domain_name    = "${var.root_domain_name}"
   api_domain_name     = "${var.api_domain_name}"
   api_stage           = "${var.api_stage}"
+  datadog_api_key     = "${var.datadog_api_key}"
+  datadog_app_key     = "${var.datadog_app_key}"
 }
 
 # The deploy is in this file due to unresolved dependency issues when having it in the Backend module.
@@ -40,16 +42,6 @@ resource "null_resource" "deploy_api" {
     aws apigateway create-deployment --rest-api-id ${module.backend.api_id} --stage-name ${var.api_stage} --profile ${var.aws_service_profile}
     EOF
   }
-}
-
-resource "aws_api_gateway_base_path_mapping" "base_path" {
-  depends_on = [
-    "null_resource.deploy_api",
-  ]
-
-  api_id      = "${module.backend.api_id}"
-  stage_name  = "${var.api_stage}"
-  domain_name = "${var.api_domain_name}"
 }
 
 module web {

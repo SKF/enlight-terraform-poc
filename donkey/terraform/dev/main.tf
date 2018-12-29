@@ -32,4 +32,6 @@ module base {
   public_zone_id        = "${data.terraform_remote_state.common_infra.public_zone_id}"
   website_bucket        = "${data.terraform_remote_state.common_infra.website_buckets["donkey"]}"
   website_cloudfront_id = "${data.terraform_remote_state.common_infra.website_cloudfront_id}"
+  datadog_api_key       = "${var.datadog_api_key}"
+  datadog_app_key       = "${var.datadog_app_key}"
 }

@@ -4,6 +4,7 @@ module "api_gateway" {
   api_name    = "donkey"
   zone_id     = "${module.public_zone.zone_id}"
   domain_name = "${var.api_domain_name}"
+  stage_name  = "${var.api_stage}"
 }
 
 module "root_options" {

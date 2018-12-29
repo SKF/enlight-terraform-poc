@@ -1,6 +1,9 @@
 package main
 
 import (
+	"context"
+	"fmt"
+
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
@@ -30,7 +33,9 @@ type statement struct {
 	Resource string
 }
 
-func handler(req request) (resp response, _ error) {
+func handler(ctx context.Context, req request) (resp response, _ error) {
+	fmt.Println(`{"message":"authorizer.handler", "level":"warn"}`)
+
 	resp.PrincipalID = "user"
 	resp.PolicyDocument = policyDocument{
 		Version: "2012-10-17",

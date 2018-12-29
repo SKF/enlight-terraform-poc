@@ -15,3 +15,5 @@ variable "aws_service_profile" {}
 variable "aws_root_profile" {}
 
 variable "aws_common_profile" {}
+variable "datadog_api_key" {}
+variable "datadog_app_key" {}

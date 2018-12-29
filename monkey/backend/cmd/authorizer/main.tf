@@ -5,6 +5,10 @@ module "authorizer" {
   filename  = "${path.module}/lambda-authorizer.zip"
   bucket    = "${module.lambda_storage.bucket}"
 
+  datadog                    = "true"
+  datadog_log_collector_arn  = "${module.log_collector.arn}"
+  datadog_log_collector_name = "${module.log_collector.name}"
+
   env = {
     "DUMMY" = "ENV_CANT_BE_EMPTY_-_SAD_SMILEY"
   }

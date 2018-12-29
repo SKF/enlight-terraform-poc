@@ -16,4 +16,8 @@ module "get_monkey" {
   http_method       = "GET"
   authorization     = "CUSTOM"
   authorizer_id     = "${module.api_authorizer_event.id}"
+
+  datadog                    = "true"
+  datadog_log_collector_arn  = "${module.log_collector.arn}"
+  datadog_log_collector_name = "${module.log_collector.name}"
 }

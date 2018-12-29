@@ -5,41 +5,34 @@ resource "aws_api_gateway_authorizer" "authorizer" {
   authorizer_credentials = "${aws_iam_role.invocation_role.arn}"
 }
 
+data "aws_iam_policy_document" "invocation_role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["apigateway.amazonaws.com"]
+    }
+  }
+}
+
 resource "aws_iam_role" "invocation_role" {
   name = "api_gateway_auth_invocation"
   path = "/"
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "apigateway.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
+  assume_role_policy = "${data.aws_iam_policy_document.invocation_role.json}"
 }
-EOF
+
+data "aws_iam_policy_document" "invocation_policy" {
+  statement {
+    actions   = ["lambda:InvokeFunction"]
+    resources = ["${var.func_arn}"]
+  }
 }
 
 resource "aws_iam_role_policy" "invocation_policy" {
   name = "default"
   role = "${aws_iam_role.invocation_role.id}"
 
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "lambda:InvokeFunction",
-      "Effect": "Allow",
-      "Resource": "${var.func_arn}"
-    }
-  ]
-}
-EOF
+  policy = "${data.aws_iam_policy_document.invocation_policy.json}"
 }

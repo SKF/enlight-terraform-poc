@@ -12,8 +12,12 @@ resource "aws_lambda_function" "func" {
   s3_key            = "${aws_s3_bucket_object.lambda.key}"
   s3_object_version = "${aws_s3_bucket_object.lambda.version_id}"
 
-  handler = "main"
-  runtime = "go1.x"
+  handler = "${var.handler}"
+  runtime = "${var.runtime}"
+
+  tracing_config = {
+    mode = "Active"
+  }
 
   role = "${aws_iam_role.lambda_exec.arn}"
 
@@ -22,22 +26,44 @@ resource "aws_lambda_function" "func" {
   }
 }
 
-resource "aws_iam_role" "lambda_exec" {
-  name = "${var.func_name}_iam_role"
+data "aws_iam_policy_document" "lambda_exec" {
+  statement {
+    actions = ["sts:AssumeRole"]
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
     }
-  ]
+  }
 }
-EOF
+
+resource "aws_iam_role" "lambda_exec" {
+  name = "${var.func_name}_lambda_role"
+
+  assume_role_policy = "${data.aws_iam_policy_document.lambda_exec.json}"
+}
+
+resource "aws_cloudwatch_log_group" "logging" {
+  name              = "/aws/lambda/${aws_lambda_function.func.function_name}"
+  retention_in_days = 14
+}
+
+resource "aws_iam_role_policy_attachment" "logging" {
+  role       = "${aws_iam_role.lambda_exec.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "xray" {
+  role       = "${aws_iam_role.lambda_exec.name}"
+  policy_arn = "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+}
+
+module "datadog" {
+  source  = "../../events/cloudwatch_logs"
+  enabled = "${var.datadog == "true"}"
+
+  origin         = "${var.func_name}_lambda"
+  log_group_name = "/aws/lambda/${var.func_name}"
+  lambda_arn     = "${var.datadog_log_collector_arn}"
+  lambda_name    = "${var.datadog_log_collector_name}"
 }

@@ -18,10 +18,6 @@ variable "aws_common_profile" {
   default = "sandbox"
 }
 
-variable "datadog_api_key" {
-  default = "dd03f233a7f9cfef3f58fb3de6b2475e"
-}
+variable "datadog_api_key" {}
 
-variable "datadog_app_key" {
-  default = "bdd6576a6da1062bddc4d174d45fed779bd528ba"
-}
+variable "datadog_app_key" {}

@@ -1,5 +1,5 @@
 module "get_donkey" {
-  source = "../../../common/terraform/modules/lambda/functions/api_method"
+  source = "../../../terraform-modules/lambda/functions/api_method"
 
   func_name = "get-donkey"
   filename  = "${path.module}/lambda-get_donkey.zip"

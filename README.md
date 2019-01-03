@@ -31,7 +31,7 @@ https://www.terraform.io/
 - create api including certificate
 
 ## File structure
-The root directories would be divided into multiple repo's in a real application.
+The root directories would be divided into multiple repo's in a real application and next to `dev` directories would be other environments like; `staging` and `prod` to hold specific configuration for those environments. As an example, one difference between `dev` and `prod` could be the scaling of the db-instance.
 - common
     - base
     - dev

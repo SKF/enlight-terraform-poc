@@ -32,22 +32,6 @@ https://www.terraform.io/
 
 ## File structure
 The root directories would be divided into multiple repo's in a real application.
-- terraform-modules
-  - api_gateway
-    - options_method
-    - rest_api
-  - certificate
-  - lambda
-    - events
-      - api_authorizer
-      - api_method
-    - functions
-      - api_method
-      - base
-    - storage
-  - public_zone
-  - remote_state
-  - website
 - common
     - base
     - dev
@@ -67,6 +51,26 @@ The root directories would be divided into multiple repo's in a real application
     - dev
   - web
     - terraform
+- terraform-modules
+  - api_gateway
+    - options_method
+    - rest_api
+  - certificate
+  - datadog
+    - log_collector
+    - metrics_integration
+  - lambda
+    - events
+      - api_authorizer
+      - api_method
+      - cloudwatch_logs
+    - functions
+      - api_method
+      - base
+    - storage
+  - public_zone
+  - remote_state
+  - website
 
 
 ## AWS deployment
